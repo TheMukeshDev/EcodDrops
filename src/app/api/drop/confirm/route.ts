@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import crypto from "crypto"
 import dbConnect from "@/lib/mongodb"
 import Bin from "@/models/Bin"
 import User from "@/models/User"
@@ -164,9 +165,11 @@ export async function POST(request: NextRequest) {
         // 11. Create transaction record for existing system compatibility
         // This maintains compatibility with the current transaction system
         const Transaction = (await import("@/models/Transaction")).default
+        const transactionId = `TXN-${Date.now()}-${crypto.randomBytes(4).toString("hex").toUpperCase()}`
         await Transaction.create({
             userId: userId,
             binId: binId,
+            transactionId,
             type: "recycle",
             itemName: "E-Waste Drop",
             itemType: "e-waste",

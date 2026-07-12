@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 import { detectWaste } from "@/lib/ai-service";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
@@ -27,8 +28,10 @@ export async function POST(request: Request) {
             });
 
             // Create Transaction Record (scan type, small points)
+            const transactionId = `TXN-${Date.now()}-${crypto.randomBytes(4).toString("hex").toUpperCase()}`
             await Transaction.create({
                 userId,
+                transactionId,
                 type: "scan",
                 itemName: result.type,
                 itemType: result.category,

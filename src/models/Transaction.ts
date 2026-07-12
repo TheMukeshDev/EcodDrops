@@ -10,7 +10,7 @@ export interface ITransaction extends Document {
     confidence: number
     value: number
     pointsEarned: number
-    verificationMethod?: 'qr_scan' | 'self_report' | 'admin_confirm' | 'ai_vision_verified'
+    verificationMethod?: 'qr_scan' | 'self_report' | 'admin_confirm' | 'ai_vision_verified' | 'geo_proximity'
     status: 'pending' | 'approved' | 'rejected'
     verifiedAt?: Date
     verificationLocation?: { latitude: number; longitude: number }
@@ -30,7 +30,7 @@ const TransactionSchema: Schema = new Schema(
         confidence: { type: Number, required: true },
         value: { type: Number, required: true }, // e.g. estimated recycling value
         pointsEarned: { type: Number, required: true },
-        verificationMethod: { type: String, enum: ['qr_scan', 'self_report', 'admin_confirm', 'ai_vision_verified'], required: false },
+        verificationMethod: { type: String, enum: ['qr_scan', 'self_report', 'admin_confirm', 'ai_vision_verified', 'geo_proximity'], required: false },
         status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'approved' },
         verifiedAt: { type: Date, required: false },
         verificationLocation: {

@@ -47,7 +47,7 @@ export function RouteLayer({ userLocation, destination, onDirectionsFetched }: R
             origin: { lat: Number(userLocation.latitude), lng: Number(userLocation.longitude) },
             destination: { lat: Number(destination.lat), lng: Number(destination.lng) },
             travelMode: google.maps.TravelMode.DRIVING,
-        }, (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
+        }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK && result) {
                 setDirectionsResponse(result)
                 onDirectionsFetched?.(result)
