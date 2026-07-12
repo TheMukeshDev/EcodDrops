@@ -28,13 +28,7 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 }
 
-interface Transaction {
-  _id: string
-  status?: string
-  type?: string
-  createdAt?: string
-  pointsEarned?: number
-}
+import type { Transaction } from "@/types/transaction"
 
 export default function Home() {
   const { user } = useAuth()

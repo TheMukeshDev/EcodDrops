@@ -8,15 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useTranslation } from "@/context/language-context"
 
-interface Transaction {
-    _id: string
-    binId: { name: string } | null
-    type?: "scan" | "recycle" | "sell"
-    itemName?: string
-    itemType: string
-    pointsEarned: number
-    createdAt: string
-}
+import type { Transaction } from "@/types/transaction"
 
 interface ActivityListProps {
     transactions?: Transaction[]
