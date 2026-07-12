@@ -28,10 +28,18 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 }
 
+interface Transaction {
+  _id: string
+  status?: string
+  type?: string
+  createdAt?: string
+  pointsEarned?: number
+}
+
 export default function Home() {
   const { user } = useAuth()
   const { t } = useTranslation()
-  const [transactions, setTransactions] = useState([])
+  const [transactions, setTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -43,7 +51,7 @@ export default function Home() {
 
       try {
         // Read transactions from localStorage (primary source — no DB)
-        const localTx = JSON.parse(localStorage.getItem('eco_transactions') || '[]')
+        const localTx = JSON.parse(localStorage.getItem('eco_transactions') || '[]') as Transaction[]
 
         // Also try API as fallback (returns [] when DB is offline)
         try {
@@ -51,8 +59,8 @@ export default function Home() {
           const txData = await txRes.json()
           if (txData.success && txData.data.length > 0) {
             // Merge server + local, dedup by _id
-            const serverIds = new Set(txData.data.map((t: any) => t._id))
-            const merged = [...txData.data, ...localTx.filter((t: any) => !serverIds.has(t._id))]
+            const serverIds = new Set(txData.data.map((t: Transaction) => t._id))
+            const merged = [...txData.data, ...localTx.filter((t) => !serverIds.has(t._id))]
             setTransactions(merged)
           } else {
             setTransactions(localTx)
